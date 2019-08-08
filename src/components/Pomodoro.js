@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import './pomodoro.scss';
 
 const defaultValue = {
@@ -37,12 +37,12 @@ export default class Pomodoro extends Component {
     if (minutes < 0 || seconds < 0 || breakTime < 0) return;
 
     if (play === true) {
+      this.setState({ play: false });
       this.handleRestart();
+    } else {
+      this.restartInterval();
+      this.setState({ play: true });
     }
-
-    this.restartInterval();
-
-    this.setState({ play: true });
   }
 
   handleCountDown() {
@@ -75,15 +75,26 @@ export default class Pomodoro extends Component {
   }
 
   render() {
-    const { minutes, seconds } = this.state;
+    const { minutes, seconds, play } = this.state;
 
     return (
       <div className="container">
-        <div className="time" onClick={this.handleStart}>
+        <div className="intro">
+          Hi, This is&nbsp;
+          <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique" rel="noopener noreferrer" target="_blank">Pomodoro</a>&nbsp;
+          App, just touch white circle !
+        </div>
+        <div className={`time ${play ? 'play' : 'stop'}`} onClick={this.handleStart}>
           <span className="minutes">{minutes}</span> : <span className="seconds">{seconds}</span>
         </div>
         <div className="footer">
-          <a href="https://www.facebook.com/bachnguyen29071998">Created by Flynn</a>
+          <a
+            href="https://www.facebook.com/bachnguyen29071998"
+            rel="noopener"
+            target="_blank noreferrer"
+          >
+            Created by Flynn
+          </a>
         </div>
       </div>
     )
