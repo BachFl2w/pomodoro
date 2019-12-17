@@ -14,24 +14,19 @@ export default class Pomodoro extends Component {
     super(props);
 
     this.state = defaultValue;
-
-    this.handleStart = this.handleStart.bind(this);
-    this.restartInterval = this.restartInterval.bind(this);
-    this.handleRestart = this.handleRestart.bind(this);
-    this.handleCountDown = this.handleCountDown.bind(this);
   }
 
-  handleRestart() {
+  handleRestart = () => {
     clearInterval(this.interval);
     this.setState(defaultValue);
   }
 
-  restartInterval() {
+  restartInterval = () => {
     clearInterval(this.interval);
     this.interval = setInterval(this.handleCountDown, 1000);
   }
 
-  handleStart() {
+  handleStart = () => {
     const { minutes, breakTime, seconds, play } = this.state;
 
     if (minutes < 0 || seconds < 0 || breakTime < 0) return;
@@ -45,17 +40,17 @@ export default class Pomodoro extends Component {
     }
   }
 
-  handleCountDown() {
+  handleCountDown = () => {
     const { minutes, seconds, type, breakTime } = this.state;
     const newSeconds = seconds - 1 < 0 ? 59 : seconds - 1;
     let newMinutes = type ? minutes : breakTime;
 
     if (seconds - 1 < 0) {
       newMinutes--;
-    }
 
-    if (newMinutes < 0) {
-      newMinutes = type ? defaultValue.breakTime - 1 : defaultValue.minutes;
+      if (newMinutes < 0) {
+        newMinutes = type ? defaultValue.breakTime : defaultValue.minutes;
+      }
     }
 
     if (newMinutes >= 0 && newSeconds >= 0) {
